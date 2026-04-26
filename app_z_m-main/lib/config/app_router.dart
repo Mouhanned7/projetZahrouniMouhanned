@@ -21,17 +21,17 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/demo',
+  initialLocation: '/accueil',
   redirect: (context, state) {
     final session = Supabase.instance.client.auth.currentSession;
     final isAuthRoute = state.matchedLocation == '/login' ||
         state.matchedLocation == '/register';
-    final isDemoRoute = state.matchedLocation == '/demo';
+    final isAccueilRoute = state.matchedLocation == '/accueil';
 
-    if (session == null && !isAuthRoute && !isDemoRoute) {
-      return '/demo';
+    if (session == null && !isAuthRoute && !isAccueilRoute) {
+      return '/accueil';
     }
-    if (session != null && (isAuthRoute || isDemoRoute)) {
+    if (session != null && (isAuthRoute || isAccueilRoute)) {
       return '/resources';
     }
     return null;
@@ -46,7 +46,7 @@ final appRouter = GoRouter(
       builder: (context, state) => const RegisterScreen(),
     ),
     GoRoute(
-      path: '/demo',
+      path: '/accueil',
       builder: (context, state) => const DemoScreen(),
     ),
     ShellRoute(

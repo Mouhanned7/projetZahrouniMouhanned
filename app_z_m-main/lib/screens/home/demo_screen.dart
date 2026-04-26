@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/app_theme.dart';
+import 'demo_widgets.dart';
 
 class DemoScreen extends StatefulWidget {
   const DemoScreen({super.key});
@@ -10,9 +11,10 @@ class DemoScreen extends StatefulWidget {
 }
 
 class _DemoScreenState extends State<DemoScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _animController;
   late final Animation<double> _fadeAnim;
+  late final AnimationController _pulseController;
   final GlobalKey _featuresKey = GlobalKey();
 
   @override
@@ -24,11 +26,16 @@ class _DemoScreenState extends State<DemoScreen>
     );
     _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
     _animController.forward();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
   }
 
   @override
   void dispose() {
     _animController.dispose();
+    _pulseController.dispose();
     super.dispose();
   }
 
@@ -112,60 +119,74 @@ class _DemoScreenState extends State<DemoScreen>
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width >= 1100;
     final isTablet = width >= 760;
-    final horizontalPadding = width >= 1300
-        ? 56.0
-        : width >= 1000
-            ? 38.0
-            : 18.0;
+    final horizontalPadding = width >= 1300 ? 56.0 : width >= 1000 ? 38.0 : 18.0;
 
     return Scaffold(
       backgroundColor: AppTheme.darkBg,
       body: Stack(
         children: [
           _buildBackgroundOrbs(),
+          const FloatingParticles(),
           FadeTransition(
             opacity: _fadeAnim,
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: _buildTopBar(context, isTablet, horizontalPadding),
-                ),
-                SliverToBoxAdapter(
-                  child: _buildHeroSection(
-                    context,
-                    isDesktop,
-                    horizontalPadding,
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 100),
+                    child: _buildTopBar(context, isTablet, horizontalPadding),
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: _buildAudienceBand(isTablet, horizontalPadding),
-                ),
-                SliverToBoxAdapter(
-                  child: _buildKeyBenefitsSection(
-                    context,
-                    isTablet,
-                    horizontalPadding,
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 250),
+                    child: _buildHeroSection(context, isDesktop, horizontalPadding),
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: Container(
-                    key: _featuresKey,
-                    child: _buildPfeJourneySection(isTablet, horizontalPadding),
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 400),
+                    child: _buildAudienceBand(isTablet, horizontalPadding),
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child:
-                      _buildTracksSection(context, isTablet, horizontalPadding),
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 550),
+                    child: _buildKeyBenefitsSection(context, isTablet, horizontalPadding),
+                  ),
                 ),
                 SliverToBoxAdapter(
-                  child: _buildContributionSection(
-                      context, isTablet, horizontalPadding),
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 700),
+                    child: Container(
+                      key: _featuresKey,
+                      child: _buildPfeJourneySection(isTablet, horizontalPadding),
+                    ),
+                  ),
                 ),
                 SliverToBoxAdapter(
-                  child: _buildFinalCta(context, horizontalPadding),
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 850),
+                    child: _buildTracksSection(context, isTablet, horizontalPadding),
+                  ),
                 ),
                 SliverToBoxAdapter(
-                  child: _buildFooter(horizontalPadding),
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 1000),
+                    child: _buildContributionSection(context, isTablet, horizontalPadding),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 1150),
+                    child: _buildFinalCta(context, horizontalPadding),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: StaggeredEntry(
+                    delay: const Duration(milliseconds: 1300),
+                    child: _buildFooter(horizontalPadding),
+                  ),
                 ),
               ],
             ),
@@ -176,26 +197,37 @@ class _DemoScreenState extends State<DemoScreen>
   }
 
   Widget _buildBackgroundOrbs() {
-    return IgnorePointer(
-      child: Stack(
-        children: [
-          Positioned(
-            top: -120,
-            left: -100,
-            child: _buildOrb(330, AppTheme.primaryColor.withOpacity(0.18)),
+    return AnimatedBuilder(
+      animation: _pulseController,
+      builder: (context, _) {
+        final pulse = _pulseController.value;
+        return IgnorePointer(
+          child: Stack(
+            children: [
+              Positioned(
+                top: -120 + pulse * 20,
+                left: -100 + pulse * 15,
+                child: _buildOrb(330 + pulse * 40, AppTheme.primaryColor.withOpacity(0.15 + pulse * 0.08)),
+              ),
+              Positioned(
+                top: 320 - pulse * 25,
+                right: -130 + pulse * 20,
+                child: _buildOrb(400 + pulse * 30, AppTheme.secondaryColor.withOpacity(0.12 + pulse * 0.06)),
+              ),
+              Positioned(
+                bottom: -140 + pulse * 30,
+                left: 40 - pulse * 10,
+                child: _buildOrb(360 + pulse * 35, AppTheme.accentColor.withOpacity(0.10 + pulse * 0.07)),
+              ),
+              Positioned(
+                top: 600,
+                right: 200,
+                child: _buildOrb(200 + pulse * 25, const Color(0xFF0EA5E9).withOpacity(0.08 + pulse * 0.05)),
+              ),
+            ],
           ),
-          Positioned(
-            top: 320,
-            right: -130,
-            child: _buildOrb(400, AppTheme.secondaryColor.withOpacity(0.14)),
-          ),
-          Positioned(
-            bottom: -140,
-            left: 40,
-            child: _buildOrb(360, AppTheme.accentColor.withOpacity(0.12)),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -220,16 +252,32 @@ class _DemoScreenState extends State<DemoScreen>
     return Padding(
       padding:
           EdgeInsets.fromLTRB(horizontalPadding, 16, horizontalPadding, 10),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: isTablet ? 18 : 12,
-          vertical: 10,
-        ),
-        decoration: BoxDecoration(
-          color: AppTheme.darkSurface.withOpacity(0.88),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withOpacity(0.1)),
-        ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: isTablet ? 18 : 12,
+            vertical: 10,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppTheme.darkSurface.withOpacity(0.75),
+                AppTheme.darkCard.withOpacity(0.55),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withOpacity(0.15)),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primaryColor.withOpacity(0.08),
+                blurRadius: 20,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
         child: Row(
           children: [
             Container(
@@ -293,6 +341,7 @@ class _DemoScreenState extends State<DemoScreen>
             ),
           ],
         ),
+        ),
       ),
     );
   }
@@ -303,44 +352,43 @@ class _DemoScreenState extends State<DemoScreen>
     double horizontalPadding,
   ) {
     return Padding(
-      padding:
-          EdgeInsets.fromLTRB(horizontalPadding, 12, horizontalPadding, 22),
-      child: Container(
-        padding: EdgeInsets.all(isDesktop ? 28 : 18),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppTheme.darkCard.withOpacity(0.94),
-              AppTheme.darkSurface.withOpacity(0.9),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(26),
-          border: Border.all(color: Colors.white.withOpacity(0.1)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.25),
-              blurRadius: 22,
-              offset: const Offset(0, 14),
+      padding: EdgeInsets.fromLTRB(horizontalPadding, 12, horizontalPadding, 22),
+      child: Hover3DCard(
+        child: Container(
+          padding: EdgeInsets.all(isDesktop ? 28 : 18),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppTheme.darkCard.withOpacity(0.94),
+                AppTheme.darkSurface.withOpacity(0.85),
+                AppTheme.darkCard.withOpacity(0.7),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
+            borderRadius: BorderRadius.circular(26),
+            border: Border.all(color: AppTheme.primaryColor.withOpacity(0.2)),
+            boxShadow: [
+              BoxShadow(color: AppTheme.primaryColor.withOpacity(0.12), blurRadius: 40, offset: const Offset(0, 16)),
+              BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 22, offset: const Offset(0, 14)),
+            ],
+          ),
+          child: isDesktop
+              ? Row(
+                  children: [
+                    Expanded(flex: 5, child: _buildHeroText(context)),
+                    const SizedBox(width: 24),
+                    Expanded(flex: 4, child: _buildHeroVisual(context)),
+                  ],
+                )
+              : Column(
+                  children: [
+                    _buildHeroText(context),
+                    const SizedBox(height: 22),
+                    _buildHeroVisual(context),
+                  ],
+                ),
         ),
-        child: isDesktop
-            ? Row(
-                children: [
-                  Expanded(flex: 5, child: _buildHeroText(context)),
-                  const SizedBox(width: 24),
-                  Expanded(flex: 4, child: _buildHeroVisual(context)),
-                ],
-              )
-            : Column(
-                children: [
-                  _buildHeroText(context),
-                  const SizedBox(height: 22),
-                  _buildHeroVisual(context),
-                ],
-              ),
       ),
     );
   }
@@ -397,12 +445,12 @@ class _DemoScreenState extends State<DemoScreen>
         ),
         const SizedBox(height: 20),
         const Wrap(
-          spacing: 16,
+          spacing: 12,
           runSpacing: 10,
           children: [
-            _MiniMetric(value: '12k+', label: 'Ressources académiques'),
-            _MiniMetric(value: '2.6k', label: 'Vidéos et tutoriels'),
-            _MiniMetric(value: '98%', label: 'Étudiants satisfaits'),
+            _AnimatedMiniMetric(value: '12k+', label: 'Ressources', icon: Icons.library_books_rounded, delay: 600),
+            _AnimatedMiniMetric(value: '2.6k', label: 'Vidéos', icon: Icons.play_circle_rounded, delay: 750),
+            _AnimatedMiniMetric(value: '98%', label: 'Satisfaits', icon: Icons.thumb_up_rounded, delay: 900),
           ],
         ),
       ],
@@ -410,20 +458,31 @@ class _DemoScreenState extends State<DemoScreen>
   }
 
   Widget _buildHeroVisual(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white.withOpacity(0.1),
-            Colors.white.withOpacity(0.03),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withOpacity(0.12)),
-      ),
+    return AnimatedBuilder(
+      animation: _pulseController,
+      builder: (context, child) {
+        final glow = _pulseController.value;
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.white.withOpacity(0.08 + glow * 0.04),
+                AppTheme.primaryColor.withOpacity(0.03 + glow * 0.03),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppTheme.primaryColor.withOpacity(0.15 + glow * 0.12)),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primaryColor.withOpacity(0.06 + glow * 0.08),
+                blurRadius: 20 + glow * 15,
+                spreadRadius: -2,
+              ),
+            ],
+          ),
       child: Column(
         children: [
           _buildPreviewTile(
@@ -486,6 +545,8 @@ class _DemoScreenState extends State<DemoScreen>
           ),
         ],
       ),
+        );
+      },
     );
   }
 
@@ -764,7 +825,8 @@ class _DemoScreenState extends State<DemoScreen>
   }
 
   Widget _buildFeatureCard(BuildContext context, _FeatureData data) {
-    return Material(
+    return Hover3DCard(
+      child: Material(
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
@@ -868,6 +930,7 @@ class _DemoScreenState extends State<DemoScreen>
             ],
           ),
         ),
+      ),
       ),
     );
   }
@@ -973,12 +1036,17 @@ class _DemoScreenState extends State<DemoScreen>
   }
 
   Widget _buildStepCard(_StepData step) {
-    return Container(
+    return Hover3DCard(
+      child: Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
+        gradient: LinearGradient(
+          colors: [Colors.white.withOpacity(0.07), Colors.white.withOpacity(0.02)],
+          begin: Alignment.topLeft, end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        border: Border.all(color: AppTheme.primaryColor.withOpacity(0.12)),
+        boxShadow: [BoxShadow(color: AppTheme.primaryColor.withOpacity(0.05), blurRadius: 15)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1026,6 +1094,7 @@ class _DemoScreenState extends State<DemoScreen>
             ),
           ),
         ],
+      ),
       ),
     );
   }
@@ -1619,42 +1688,73 @@ class _PillLabel extends StatelessWidget {
   }
 }
 
-class _MiniMetric extends StatelessWidget {
+class _AnimatedMiniMetric extends StatefulWidget {
   final String value;
   final String label;
+  final IconData icon;
+  final int delay;
 
-  const _MiniMetric({required this.value, required this.label});
+  const _AnimatedMiniMetric({required this.value, required this.label, required this.icon, this.delay = 0});
+
+  @override
+  State<_AnimatedMiniMetric> createState() => _AnimatedMiniMetricState();
+}
+
+class _AnimatedMiniMetricState extends State<_AnimatedMiniMetric> with SingleTickerProviderStateMixin {
+  late final AnimationController _c;
+  @override
+  void initState() {
+    super.initState();
+    _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
+    Future.delayed(Duration(milliseconds: widget.delay), () { if (mounted) _c.forward(); });
+  }
+  @override
+  void dispose() { _c.dispose(); super.dispose(); }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white.withOpacity(0.09)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              fontSize: 14,
+    return AnimatedBuilder(
+      animation: _c,
+      builder: (_, __) {
+        final v = CurvedAnimation(parent: _c, curve: Curves.elasticOut).value;
+        return Transform.scale(
+          scale: v,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.white.withOpacity(0.1), Colors.white.withOpacity(0.04)],
+                begin: Alignment.topLeft, end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: AppTheme.primaryColor.withOpacity(0.15)),
+              boxShadow: [BoxShadow(color: AppTheme.primaryColor.withOpacity(0.08), blurRadius: 12)],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 32, height: 32,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryColor.withOpacity(0.18),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(widget.icon, color: AppTheme.primaryColor, size: 16),
+                ),
+                const SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(widget.value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
+                    Text(widget.label, style: TextStyle(color: Colors.white.withOpacity(0.65), fontSize: 10)),
+                  ],
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.72),
-              fontSize: 11,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
