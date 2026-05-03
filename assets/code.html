@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AcademicShare - Student Research Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface-variant": "#464651",
+                        "on-tertiary-fixed": "#002113",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#bfc2ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary": "#505f76",
+                        "surface-container": "#eceef0",
+                        "on-background": "#191c1e",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-container": "#00452d",
+                        "on-tertiary-container": "#1abc84",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "background": "#f7f9fb",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-secondary-container": "#54647a",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "on-primary-container": "#999ff5",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-container": "#d0e1fb",
+                        "primary-fixed": "#e0e0ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary-container": "#2d3282",
+                        "primary-fixed-dim": "#bfc2ff",
+                        "on-primary-fixed": "#070963",
+                        "primary": "#15196c",
+                        "tertiary": "#002d1c",
+                        "secondary-fixed": "#d3e4fe",
+                        "outline-variant": "#c7c5d3",
+                        "outline": "#777682",
+                        "surface-tint": "#5156a7",
+                        "on-primary-fixed-variant": "#393e8e",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-surface": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "40px",
+                        "sidebar-width": "280px",
+                        "container-max": "1440px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "xs": "4px",
+                        "xl": "64px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Space Grotesk"],
+                        "h3": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "display-xl": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "display-lg": ["Space Grotesk"],
+                        "h2": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "h1": ["30px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "h2": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar from JSON -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-indigo-900 dark:text-indigo-300 font-['Space_Grotesk'] text-sm tracking-tight docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center px-10 py-3 w-full sticky">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-[#2D3282] dark:text-indigo-400">AcademicShare</span>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-[#2D3282] dark:text-indigo-400 font-bold hover:text-[#2D3282] dark:hover:text-indigo-300 transition-colors duration-300" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#2D3282] dark:hover:text-indigo-300 transition-colors duration-300" href="#">Features</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#2D3282] dark:hover:text-indigo-300 transition-colors duration-300" href="#">Library</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-100 border-none rounded-full text-xs w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search reports..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-slate-500 hover:text-primary transition-all">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:text-primary transition-all">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-slate-200">
+<img alt="User profile avatar" data-alt="professional headshot of a young researcher in a clean studio setting with soft neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB981HP_JGOgzGtq-bDzRaf2SBOUVd3qZAF0qATkiu-PxPGlJeYpMDFMtSVc3IuS4ef_OORx5yoZ3vSBtvKJfhUvIL9w4Wzwa7EKbPaViQ7eTqTqApEO-6G1ROuD939d6bv8J80lWJ05e96PWEtj7Vr-neO1FE29DNDDar3xjLqYY3NjynP9_GT_PagDyCAPiGVNmhuiuGcatk5E8P9eEnpEHp1xEslLQLwKPiqyze9dnFVAkL1SJkLFm4vZw3cYNdveODbKqTZyEP1"/>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section: Asymmetrical & Bold -->
+<section class="relative pt-24 pb-32 px-10 max-w-[1440px] mx-auto overflow-hidden">
+<div class="grid grid-cols-12 gap-lg items-center">
+<div class="col-span-12 lg:col-span-7 z-10">
+<span class="font-label-caps text-label-caps text-primary bg-primary/10 px-3 py-1 rounded-full mb-6 inline-block">THE FUTURE OF ACADEMIA</span>
+<h1 class="font-display-xl text-display-xl text-primary mb-8 max-w-2xl leading-[1.05]">
+                        Where rigorous research meets <span class="text-on-tertiary-container italic">seamless</span> velocity.
+                    </h1>
+<p class="font-body-lg text-body-lg text-secondary mb-10 max-w-xl">
+                        AcademicShare provides a high-fidelity platform for students and researchers to publish, discover, and collaborate on peer-reviewed reports with the precision of a professional journal.
+                    </p>
+<div class="flex items-center gap-6">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-h3 text-h3 hover:opacity-90 active:scale-95 transition-all shadow-lg">Get Started</button>
+<button class="text-primary font-h3 text-h3 flex items-center gap-2 group">
+                            Live Demo <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-5 relative mt-12 lg:mt-0">
+<div class="relative rounded-2xl overflow-hidden shadow-[0px_40px_80px_rgba(0,0,0,0.1)] border border-white/50 rotate-3 translate-x-4">
+<img class="w-full aspect-[4/5] object-cover" data-alt="high-end minimalist desk setup with an open laptop showing complex data visualizations and research papers in a sunlit airy room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSNAVDA1rLnZCNdpstlUlrgJFNfE05JTdLyg9SKDYZWtqzb9DoaOeQkAQZYTHuPkjjtWaTcKm19bDkh1oZwgiJ8GJ--nv7QflbmQFJiIz13ccad0Kpugro4YfAcbRpJhcHbEtjZ6G2kRIF7vSrb32duhe94kPbHsIGgU02fIBqpYLGmgsfJvx6AwiU2QMtOLImeXSArDbPCXGJKT6VLUz6Jlza-SKRmNu-lkgDKAjAZpgSw9sDse_8feR26ytcIdGgsDaPluumD-2H"/>
+</div>
+<div class="absolute -bottom-8 -left-12 bg-white p-6 rounded-xl shadow-xl border border-slate-100 max-w-xs -rotate-3 z-20">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 bg-tertiary-fixed rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed">verified</span>
+</div>
+<div>
+<div class="font-h3 text-h3 text-primary">98.4%</div>
+<div class="font-label-caps text-label-caps text-secondary uppercase">Approval Accuracy</div>
+</div>
+</div>
+<p class="text-xs text-secondary italic">"The moderation engine reduced our turnaround time by 60%."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section: Bento Grid Inspired -->
+<section class="py-24 px-10 max-w-[1440px] mx-auto bg-white rounded-[40px] shadow-sm mb-24">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-display-lg text-primary mb-4">Engineered for Excellence</h2>
+<p class="text-secondary font-body-lg max-w-2xl mx-auto">Every tool you need to manage research at scale, built with a focus on editorial quality and technical integrity.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Feature 1 -->
+<div class="group p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+<div class="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-white">search</span>
+</div>
+<h3 class="font-h2 text-h2 text-primary mb-4">Intelligent Discovery</h3>
+<p class="text-secondary font-body-md leading-relaxed">Advanced semantic search that understands research intent, not just keywords. Find relevant citations in seconds.</p>
+</div>
+<!-- Feature 2 -->
+<div class="group p-8 rounded-2xl bg-white border border-slate-200 shadow-[0px_10px_40px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+<div class="w-12 h-12 bg-tertiary-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-tertiary-container">upload_file</span>
+</div>
+<h3 class="font-h2 text-h2 text-primary mb-4">Instant Sharing</h3>
+<p class="text-secondary font-body-md leading-relaxed">Secure, collaborative sharing permissions. Control who sees your research with granular, enterprise-grade access.</p>
+</div>
+<!-- Feature 3 -->
+<div class="group p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+<div class="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+</div>
+<h3 class="font-h2 text-h2 text-primary mb-4">AI Moderation</h3>
+<p class="text-secondary font-body-md leading-relaxed">Our automated screening ensures every report meets formatting and citation standards before it ever reaches a human peer.</p>
+</div>
+</div>
+</section>
+<!-- Content Preview: Dashboard Taster -->
+<section class="py-24 px-10 bg-slate-900 text-white rounded-t-[40px] lg:rounded-t-[80px]">
+<div class="max-w-[1440px] mx-auto">
+<div class="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-xl">
+<h2 class="font-display-lg text-display-lg mb-6">The Library Preview</h2>
+<p class="text-slate-400 font-body-lg">Experience the interface used by thousands of students to organize their academic legacy. Premium by default.</p>
+</div>
+<button class="bg-white text-primary px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors">Explore Full Library</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Academic Card 1 -->
+<div class="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-all group backdrop-blur-sm">
+<div class="flex justify-between items-start mb-6">
+<span class="text-xs font-label-caps px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded">Physics</span>
+<span class="material-symbols-outlined text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<h4 class="font-h3 text-h3 mb-3 leading-tight">Quantum Entanglement in Micro-Vacuum</h4>
+<p class="text-slate-400 text-sm mb-6 line-clamp-3">An investigation into the behavioral shifts of subatomic particles within controlled vacuum environments at 0.001K.</p>
+<div class="flex items-center gap-3 pt-4 border-t border-white/10">
+<div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-[10px] font-bold">AL</div>
+<div class="text-xs">
+<div class="font-medium">Alex Linden</div>
+<div class="text-slate-500">MSc Researcher</div>
+</div>
+</div>
+</div>
+<!-- Academic Card 2 -->
+<div class="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-all group backdrop-blur-sm">
+<div class="flex justify-between items-start mb-6">
+<span class="text-xs font-label-caps px-2 py-1 bg-blue-500/20 text-blue-400 rounded">Ethics</span>
+<span class="material-symbols-outlined text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<h4 class="font-h3 text-h3 mb-3 leading-tight">Algorithmic Bias in Healthcare AI</h4>
+<p class="text-slate-400 text-sm mb-6 line-clamp-3">Case study analyzing socio-economic disparities generated by predictive triage algorithms in metropolitan hospitals.</p>
+<div class="flex items-center gap-3 pt-4 border-t border-white/10">
+<div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-[10px] font-bold">SR</div>
+<div class="text-xs">
+<div class="font-medium">Sarah Reed</div>
+<div class="text-slate-500">PhD Candidate</div>
+</div>
+</div>
+</div>
+<!-- Academic Card 3 -->
+<div class="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-all group backdrop-blur-sm">
+<div class="flex justify-between items-start mb-6">
+<span class="text-xs font-label-caps px-2 py-1 bg-amber-500/20 text-amber-400 rounded">Biology</span>
+<span class="material-symbols-outlined text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<h4 class="font-h3 text-h3 mb-3 leading-tight">Mycelium as Structural Support</h4>
+<p class="text-slate-400 text-sm mb-6 line-clamp-3">Examining the compressive strength of lab-grown fungi as a sustainable alternative to composite materials.</p>
+<div class="flex items-center gap-3 pt-4 border-t border-white/10">
+<div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-[10px] font-bold">JM</div>
+<div class="text-xs">
+<div class="font-medium">James Miller</div>
+<div class="text-slate-500">Biotech Engineer</div>
+</div>
+</div>
+</div>
+<!-- Academic Card 4 -->
+<div class="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-all group backdrop-blur-sm">
+<div class="flex justify-between items-start mb-6">
+<span class="text-xs font-label-caps px-2 py-1 bg-purple-500/20 text-purple-400 rounded">Economics</span>
+<span class="material-symbols-outlined text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<h4 class="font-h3 text-h3 mb-3 leading-tight">Post-Scarcity Digital Markets</h4>
+<p class="text-slate-400 text-sm mb-6 line-clamp-3">Theoretical framework for currency valuation in hyper-automated economies with zero marginal cost of production.</p>
+<div class="flex items-center gap-3 pt-4 border-t border-white/10">
+<div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-[10px] font-bold">EL</div>
+<div class="text-xs">
+<div class="font-medium">Elena Low</div>
+<div class="text-slate-500">Senior Researcher</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Footer -->
+<footer class="bg-slate-900 pt-12 pb-24 px-10">
+<div class="max-w-4xl mx-auto text-center">
+<div class="h-px w-full bg-white/10 mb-24"></div>
+<h2 class="font-display-xl text-display-xl text-white mb-8">Ready to share your intellectual capital?</h2>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto bg-primary text-white px-10 py-5 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-[0px_20px_40px_rgba(45,50,130,0.4)]">Get AcademicShare Pro</button>
+<button class="w-full sm:w-auto bg-white/10 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-white/20 transition-all">Request Enterprise Access</button>
+</div>
+<div class="mt-24 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
+<div class="font-bold text-white mb-4 md:mb-0">AcademicShare</div>
+<div class="flex gap-8 mb-8 md:mb-0">
+<a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-white transition-colors" href="#">Methodology</a>
+<a class="hover:text-white transition-colors" href="#">Contact</a>
+</div>
+<div>© 2024 AcademicShare. All Research Protected.</div>
+</div>
+</div>
+</footer>
+</main>
+<!-- SideNavBar Style Bottom Bar for Mobile Only as per Responsive Pivot Rule -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-4 flex justify-around items-center z-50">
+<div class="flex flex-col items-center gap-1 text-[#2D3282]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold">Dashboard</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">description</span>
+<span class="text-[10px]">Reports</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="text-[10px]">Upload</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span class="text-[10px]">Admin</span>
+</div>
+</nav>
+</body></html>
