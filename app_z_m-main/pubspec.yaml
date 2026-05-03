@@ -1,0 +1,55 @@
+name: app_z_m
+description: "Hub de Ressources Académiques — Plateforme Freelance Étudiante"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Supabase
+  supabase_flutter: 2.3.0
+
+  # Navigation
+  go_router: ^13.0.0
+
+  # HTTP & File handling
+  http: ^1.2.0
+  file_picker: ^8.0.0
+  mime: ^1.0.6
+
+  # UI
+  google_fonts: ^6.2.1
+  shimmer: ^3.0.0
+  cached_network_image: ^3.3.0
+  flutter_rating_bar: ^4.0.1
+  flutter_staggered_grid_view: ^0.7.0
+  url_launcher: ^6.2.0
+
+  # Utils
+  intl: ^0.20.2
+  timeago: ^3.7.0
+  pointer_interceptor: ^0.10.1+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logo (2).png
+
+dependency_overrides:
+  postgrest: 2.1.0
+  gotrue: 2.7.0
+  realtime_client: 2.1.0
+  storage_client: 2.0.2
+  functions_client: 2.2.0
+  supabase: 2.2.0
